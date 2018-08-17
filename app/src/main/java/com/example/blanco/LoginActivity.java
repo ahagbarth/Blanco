@@ -315,10 +315,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView.setAdapter(adapter);
     }
 
-    //private void userLogin() {
-
-      //  mAuth.signInWithEmailAndPassword();
-    //}
 
 
 
