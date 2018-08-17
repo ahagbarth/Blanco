@@ -1,5 +1,6 @@
 package com.example.blanco;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Signup extends AppCompatActivity implements View.OnClickListener {
@@ -69,11 +71,22 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                 if(task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "User Registered Successfull", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
+                    signedUp();
+
+                }
+                else {
+                    if(task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        Toast.makeText(getApplicationContext(),"You are already registered", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
 
+    }
+
+    public void signedUp() {
+        startActivity(new Intent(this,LoginActivity.class));
     }
 
     @Override
