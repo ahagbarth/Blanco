@@ -32,8 +32,8 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
 
         mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.email_sign_in_button).setOnClickListener(this);
 
+        findViewById(R.id.email_sign_in_button).setOnClickListener(this);
     }
 
     private void registerUser() {
@@ -69,6 +69,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+                    finish();
                     Toast.makeText(getApplicationContext(), "User Registered Successfull", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
                     signedUp();
@@ -86,7 +87,8 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void signedUp() {
-        startActivity(new Intent(this,LoginActivity.class));
+
+        startActivity(new Intent(Signup.this,StartActivity.class));
     }
 
     @Override

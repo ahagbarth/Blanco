@@ -111,7 +111,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(mAuth.getCurrentUser()!=null) {
+            finish();
+            startActivity(new Intent(this, Signup.class));
+        }
+    }
+
     public void signUp(View v) {
+        finish();
         startActivity(new Intent(this,Signup.class));
     }
 
@@ -210,6 +221,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
+                        finish();
                         Intent intent = new Intent(LoginActivity.this,StartActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
