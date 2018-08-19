@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -67,10 +68,44 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         });
         findViewById(R.id.buttonSave).setOnClickListener(this);
 
+        loadUserInformation();
+
 
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(mAuth.getCurrentUser()==null) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+    }
+
+    private void loadUserInformation() {
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if(user != null) {
+
+            if (user.getPhotoUrl()!= null) {
+                Glide.with(this).load(user.getPhotoUrl().toString()).into(imageView);
+            }
+            if(user.getDisplayName()!= null) {
+                editText.setText(user.getDisplayName());
+                finish();
+                startActivity(new Intent(this, MainMenuActivity.class));
+            }
+
+        }
+
+
+
+
+
+    }
 
 
     @Override
@@ -117,6 +152,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(StartActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(StartActivity.this, MainMenuActivity.class));
                     }
                 }
             });

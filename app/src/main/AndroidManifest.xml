@@ -27,7 +27,8 @@
         <activity
             android:name=".Signup"
             android:label="@string/title_activity_signup" />
-        <activity android:name=".StartActivity"></activity>
+        <activity android:name=".StartActivity" />
+        <activity android:name=".MainMenuActivity"></activity>
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,21 +112,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
     }
-
+/*
     @Override
     protected void onStart() {
         super.onStart();
 
         if(mAuth.getCurrentUser()!=null) {
             finish();
-            startActivity(new Intent(this, Signup.class));
+            startActivity(new Intent(this, LoginActivity.class));
         }
     }
-
-    public void signUp(View v) {
-        finish();
-        startActivity(new Intent(this,Signup.class));
-    }
+*/
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -221,7 +219,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
-                        finish();
+                        FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent = new Intent(LoginActivity.this,StartActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
