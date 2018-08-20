@@ -38,14 +38,14 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="234dp"
-        android:layout_height="18dp"
+        android:layout_width="173dp"
+        android:layout_height="26dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="1dp"
-        android:text="Click to set profile picture (optional)"
+        android:text="Click to set profile picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

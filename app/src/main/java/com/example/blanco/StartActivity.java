@@ -142,7 +142,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
         FirebaseUser user = mAuth.getCurrentUser();
 
-        if(user!=null && profileImageUrl != null) {
+        if(user!=null  && profileImageUrl != null) {
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
                     .setDisplayName(displayName)
                     .setPhotoUri(Uri.parse(profileImageUrl))
