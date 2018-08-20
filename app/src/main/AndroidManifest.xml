@@ -31,11 +31,15 @@
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".InfoActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".LeaderboardActivity"></activity>
+        <activity android:name=".LeaderboardActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".FriendsActivity" />
+        <activity android:name=".CreateLobbyActivity" />
+        <activity android:name=".JoinLobbyActivity"></activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,10 @@ public class MainMenuActivity extends AppCompatActivity {
     ImageView imageViewInfo;
     ImageView imageViewSettings;
     ImageView imageViewLeaderboard;
+
+    Button buttonfriendList;
+    Button buttoncreateLobby;
+    Button buttonjoinLobby;
 
 
     FirebaseAuth mAuth;
@@ -39,6 +44,9 @@ public class MainMenuActivity extends AppCompatActivity {
         imageViewLeaderboard = findViewById(R.id.imageViewLeaderboard);
         imageViewSettings = findViewById(R.id.imageViewSettings);
 
+        buttonfriendList = findViewById(R.id.button_friendList);
+        buttoncreateLobby = findViewById(R.id.button_createLobby);
+        buttonjoinLobby = findViewById(R.id.button_joinLobby);
 
         textView = findViewById(R.id.editTextDisplayName);
 
@@ -63,6 +71,27 @@ public class MainMenuActivity extends AppCompatActivity {
             startActivity(new Intent(MainMenuActivity.this, LeaderboardActivity.class));
             }
         });
+
+        //Make the buttons work
+        buttonfriendList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainMenuActivity.this, FriendsActivity.class));
+            }
+        });
+        buttoncreateLobby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainMenuActivity.this, CreateLobbyActivity.class));
+            }
+        });
+        buttonjoinLobby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainMenuActivity.this, JoinLobbyActivity.class));
+            }
+        });
+
 
 
     }
@@ -91,6 +120,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         }
     }
+
 
 
 }
