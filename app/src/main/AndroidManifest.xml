@@ -28,7 +28,10 @@
             android:name=".Signup"
             android:label="@string/title_activity_signup" />
         <activity android:name=".StartActivity" />
-        <activity android:name=".MainMenuActivity"></activity>
+        <activity android:name=".MainMenuActivity" />
+        <activity android:name=".InfoActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".LeaderboardActivity"></activity>
     </application>
 
 </manifest>

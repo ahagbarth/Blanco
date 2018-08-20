@@ -80,7 +80,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewInfo"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginBottom="32dp"
@@ -94,7 +94,7 @@
         app:srcCompat="@android:drawable/ic_menu_info_details" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageViewSettings"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginBottom="32dp"
@@ -108,7 +108,7 @@
         app:srcCompat="@android:drawable/ic_menu_preferences" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageViewLeaderboard"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginBottom="32dp"

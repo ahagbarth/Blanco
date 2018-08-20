@@ -15,7 +15,13 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainMenuActivity extends AppCompatActivity {
     TextView textView;
-    ImageView imageView;
+
+    ImageView imageViewProfile;
+    ImageView imageViewInfo;
+    ImageView imageViewSettings;
+    ImageView imageViewLeaderboard;
+
+
     FirebaseAuth mAuth;
 
     @Override
@@ -28,16 +34,36 @@ public class MainMenuActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        imageView = findViewById(R.id.profilePicture);
+        imageViewProfile = findViewById(R.id.profilePicture);
+        imageViewInfo = findViewById(R.id.imageViewInfo);
+        imageViewLeaderboard = findViewById(R.id.imageViewLeaderboard);
+        imageViewSettings = findViewById(R.id.imageViewSettings);
+
+
         textView = findViewById(R.id.editTextDisplayName);
 
-        /*imageView.setOnClickListener(new View.OnClickListener() {
+
+        //These will make the image clickable and take them to their corresponding pages
+        imageViewInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeProfile();
+                startActivity(new Intent(MainMenuActivity.this, InfoActivity.class));
             }
         });
-        */
+
+        imageViewSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
+            }
+        });
+        imageViewLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            startActivity(new Intent(MainMenuActivity.this, LeaderboardActivity.class));
+            }
+        });
+
 
     }
 
@@ -53,7 +79,7 @@ public class MainMenuActivity extends AppCompatActivity {
             if (user != null) {
 
                 if (user.getPhotoUrl() != null) {
-                    Glide.with(this).load(user.getPhotoUrl().toString()).into(imageView);
+                    Glide.with(this).load(user.getPhotoUrl().toString()).into(imageViewProfile);
                 }
                 if (user.getDisplayName() != null) {
                     textView.setText(user.getDisplayName());
