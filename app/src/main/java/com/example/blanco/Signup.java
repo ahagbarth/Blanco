@@ -72,6 +72,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                     finish();
                     Toast.makeText(getApplicationContext(), "User Registered Successfull", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
+
                     signedUp();
 
                 }

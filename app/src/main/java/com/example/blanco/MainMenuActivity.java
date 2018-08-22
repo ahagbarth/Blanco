@@ -76,7 +76,7 @@ public class MainMenuActivity extends AppCompatActivity {
         buttonfriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainMenuActivity.this, FriendsActivity.class));
+                startActivity(new Intent(MainMenuActivity.this, UsersActivity.class));
             }
         });
         buttoncreateLobby.setOnClickListener(new View.OnClickListener() {

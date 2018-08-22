@@ -26,6 +26,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -34,13 +36,16 @@ import java.io.IOException;
 
 public class StartActivity extends AppCompatActivity implements View.OnClickListener {
 
+    DatabaseReference databaseUsers;
+
+
     private static final int CHOOSE_IMAGE = 10;
     EditText editText;
     ImageView imageView;
 
     Uri uriProfileImage;
     ProgressBar progressBar;
-
+    private FirebaseUser mCurrent_user;
 
     String profileImageUrl;
     FirebaseAuth mAuth;
@@ -54,6 +59,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_start);
 
         mAuth = FirebaseAuth.getInstance();
+        mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
 
         editText = (EditText) findViewById(R.id.editTextDisplayName);
         imageView = (ImageView) findViewById(R.id.profilePicture);
@@ -67,6 +73,9 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         findViewById(R.id.buttonSave).setOnClickListener(this);
+
+        databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
+
 
         loadUserInformation();
 
@@ -132,7 +141,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void saveUserInformation() {
-        String displayName = editText.getText().toString();
+        final String displayName = editText.getText().toString();
 
         if(displayName.isEmpty()) {
             editText.setError("Name required");
@@ -152,6 +161,14 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(StartActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+
+                        //Add user in database
+                        String id =  mAuth.getCurrentUser().getUid();
+
+                        Users user = new Users(id, displayName);
+
+                        databaseUsers.child(id).setValue(user);
+
                         startActivity(new Intent(StartActivity.this, MainMenuActivity.class));
                     }
                 }
