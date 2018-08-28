@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -21,18 +22,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateLobbyActivity extends AppCompatActivity {
 
-    private RecyclerView mUsersList;
+    private EditText lobbyName, lobbyPassword;
+    private Button buttonCreateLobby;
 
-    private FirebaseUser mCurrentUser;
-    private DatabaseReference mUsersDatabase;
-    private DatabaseReference mFriendsDatabase;
-
-    private String mCurrent_user_id;
-
-    private EditText mSearchUser;
-    private ImageButton mButtonSearchUser;
-
-
+    private DatabaseReference mLobbyDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -40,77 +33,40 @@ public class CreateLobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_create_lobby);
-/*
-        mSearchUser = findViewById(R.id.searchUser);
-        mButtonSearchUser = findViewById(R.id.buttonSearchUser);
-*/
-        mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
-        //mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child(mCurrent_user_id);
-        mUsersList = findViewById(R.id.friends_list);
-        mUsersList.setHasFixedSize(true);
-        mUsersList.setLayoutManager(new LinearLayoutManager(this));
 
-        mCurrent_user_id = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-        mCurrentUser= FirebaseAuth.getInstance().getCurrentUser();
+        lobbyName = findViewById(R.id.lobbyName);
+        lobbyPassword = findViewById(R.id.lobbyPassword);
 
+        mLobbyDatabase = FirebaseDatabase.getInstance().getReference().child("Lobby_list");
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-      //  final String searchUsername = mSearchUser.getText().toString();
-
-
-
-
-        FirebaseRecyclerAdapter<Users, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Users, UsersViewHolder>(
-
-                Users.class,
-                R.layout.users_single_layout,
-                UsersViewHolder.class,
-                mUsersDatabase.child(mCurrent_user_id)
-
-        ) {
+        buttonCreateLobby = findViewById(R.id.buttonCreateLobby);
+        buttonCreateLobby.setOnClickListener(new View.OnClickListener() {
             @Override
-            protected void populateViewHolder(UsersViewHolder viewHolder, Users model, int position) {
-
-                viewHolder.setName(model.getUserName());
-                //viewHolder.setUserImage(model.getProfileImage(),getApplicationContext());
-
-                final String user_id = getRef(position).getKey();
-
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent profileIntent = new Intent(CreateLobbyActivity.this, ProfileActivity.class);
-                        profileIntent.putExtra("user_id", user_id);
-                        startActivity(profileIntent);
-                    }
-                });
-
+            public void onClick(View view) {
+                createLobby();
             }
-        };
-
-        mUsersList.setAdapter(firebaseRecyclerAdapter);
+        });
 
     }
 
-    public static class UsersViewHolder extends RecyclerView.ViewHolder{
+    public void createLobby(){
+        String lobby_name = lobbyName.getText().toString();
+        String lobby_password = lobbyPassword.getText().toString();
 
-        View mView;
+        if(lobby_name.isEmpty()) {
+            lobbyName.setError("Lobby Name Required");
+            lobbyName.requestFocus();
+            return;
+        } else {
 
-        public UsersViewHolder(@NonNull View itemView) {
-            super(itemView);
+           mLobbyDatabase.child(lobby_name).child("userName").setValue(lobby_name);
+           mLobbyDatabase.child(lobby_name).child("Password").setValue(lobby_password);
 
-            mView = itemView;
+           Intent intent = new Intent(CreateLobbyActivity.this, LobbyActivity.class);
+           intent.putExtra("lobby_name",lobby_name);
+           startActivity(intent);
+
         }
-        public void setName(String name) {
-            TextView userNameView = mView.findViewById(R.id.user_single_name);
-            userNameView.setText(name);
-        }
-
 
     }
-
 }
