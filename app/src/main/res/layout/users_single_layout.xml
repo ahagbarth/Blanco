@@ -31,13 +31,4 @@
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/user_single_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/user_single_name"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/user_single_name"
-        android:layout_marginTop="49dp"
-        android:text="User Default Status" />
 </RelativeLayout>

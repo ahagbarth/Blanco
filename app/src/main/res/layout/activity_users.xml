@@ -9,7 +9,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/users_list"
         android:layout_width="match_parent"
-        android:layout_height="571dp"
+        android:layout_height="497dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true">
@@ -26,6 +26,25 @@
         android:text="All Users"
         android:textSize="36sp"
         app:fontFamily="@font/shrikhand" />
+
+    <EditText
+        android:id="@+id/searchUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView10"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="134dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName" />
+
+    <ImageButton
+        android:id="@+id/buttonSearchUser"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/searchUser"
+        android:layout_toRightOf="@+id/textView10"
+        app:srcCompat="@android:drawable/ic_menu_search" />
 
 
 </RelativeLayout>

@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +25,15 @@ public class UsersActivity extends AppCompatActivity {
 
     private RecyclerView mUsersList;
 
+    private FirebaseUser mCurrentUser;
     private DatabaseReference mUsersDatabase;
+    private DatabaseReference mFriendsDatabase;
+
+    private String mCurrent_user_id;
+
+    private EditText mSearchUser;
+    private ImageButton mButtonSearchUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,48 +43,78 @@ public class UsersActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_users);
 
-        mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        mSearchUser = findViewById(R.id.searchUser);
+        mButtonSearchUser = findViewById(R.id.buttonSearchUser);
 
+
+
+        mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        //mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child(mCurrent_user_id);
         mUsersList = findViewById(R.id.users_list);
         mUsersList.setHasFixedSize(true);
         mUsersList.setLayoutManager(new LinearLayoutManager(this));
+
+        //mCurrent_user_id = mAuth.getCurrent
+        mCurrentUser= FirebaseAuth.getInstance().getCurrentUser();
+
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        final String searchUsername = mSearchUser.getText().toString();
 
-
-        FirebaseRecyclerAdapter<Users, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Users, UsersViewHolder>(
-
-                Users.class,
-                R.layout.users_single_layout,
-                UsersViewHolder.class,
-                mUsersDatabase
-
-        ) {
+        mButtonSearchUser.setOnClickListener(new View.OnClickListener() {
             @Override
-            protected void populateViewHolder(UsersViewHolder viewHolder, Users model, int position) {
+            public void onClick(final View view) {
+                final String searchedName = mSearchUser.getText().toString();
 
-                viewHolder.setName(model.getUserName());
-                //viewHolder.setUserImage(model.getProfileImage(),getApplicationContext());
 
-                final String user_id = getRef(position).getKey();
+                FirebaseRecyclerAdapter<Users, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Users, UsersViewHolder>(
 
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                        Users.class,
+                        R.layout.users_single_layout,
+                        UsersViewHolder.class,
+                        mUsersDatabase.orderByChild("userName").equalTo(searchedName)
+
+                ) {
                     @Override
-                    public void onClick(View view) {
-                        Intent profileIntent = new Intent(UsersActivity.this, ProfileActivity.class);
-                        profileIntent.putExtra("user_id", user_id);
-                        startActivity(profileIntent);
+                    protected void populateViewHolder(UsersViewHolder viewHolder, Users model, int position) {
+                        if (model.getUserName().equals(searchedName)) {
+                            viewHolder.setName(model.getUserName());
+                        }
+                        //String databaseUser = model.getUserName();
+
+
+
+
+
+
+                        //viewHolder.setUserImage(model.getProfileImage(),getApplicationContext());
+
+                        final String user_id = getRef(position).getKey();
+
+                        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent profileIntent = new Intent(UsersActivity.this, ProfileActivity.class);
+                                profileIntent.putExtra("user_id", user_id);
+                                startActivity(profileIntent);
+                            }
+                        });
+
                     }
-                });
+                };
+
+                mUsersList.setAdapter(firebaseRecyclerAdapter);
 
             }
-        };
+        });
 
-        mUsersList.setAdapter(firebaseRecyclerAdapter);
+
+
+
 
     }
 
